@@ -1,0 +1,14 @@
+{
+  "name": "multisistema_backend",
+  "version": "1.0.0",
+  "description": "Rest Full Api connnect mobile to API saurus",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
