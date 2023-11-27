@@ -1,0 +1,17 @@
+version: '3.1'
+
+#    multisistema_backend % migrate -path ./app/schema -database 'postgres://postgres:root@localhost:5432/postgres?sslmode=disable' up
+services:
+  postgres:
+    container_name: postgresql
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: root
+      POSTGRES_DB: multisistema
+      PGDATA: /data/postgres
+    # volumes:
+    #   - ./pg:/data/postgres
+    ports:
+      - 5432:5432
