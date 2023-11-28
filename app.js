@@ -1,12 +1,10 @@
 const express = require('express');
+const authRoute = require("./routes/auth")
 const app = express();
+
 
 app.use(express.json());
 
-app.use((req, res, next) => {
-    res.status(200).json({
-        message: 'Hello world'
-    })
-})
+app.use("/api/auth",authRoute);
 
 module.exports = app;
