@@ -2,14 +2,8 @@
 const {
     Model
 } = require('sequelize');
-
 module.exports = (sequelize, DataTypes) => {
     class Object extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
         static associate(models) {
             // define association here
         }
@@ -22,10 +16,10 @@ module.exports = (sequelize, DataTypes) => {
         personalAccount: DataTypes.STRING,
         connectDate: DataTypes.DATE,
         enable: DataTypes.BOOLEAN,
-        idUser: DataTypes.INTEGER,
-        accessLevel: DataTypes.STRING,
+        balanceObject: DataTypes.DOUBLE,
+        userId: DataTypes.INTEGER,
+        accesLevel: DataTypes.STRING,
         objectCompanyName: DataTypes.STRING,
-        objectCompanyAccount: DataTypes.STRING,
         objectCompanyUrl: DataTypes.STRING
     }, {
         sequelize,
@@ -34,4 +28,3 @@ module.exports = (sequelize, DataTypes) => {
 
     return Object;
 };
-
