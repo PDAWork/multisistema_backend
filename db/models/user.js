@@ -21,7 +21,8 @@ module.exports = (sequelize, DataTypes) => {
         firstName: DataTypes.STRING,
         lastName: DataTypes.STRING,
         phone: DataTypes.STRING,
-        sid: DataTypes.STRING
+        sid: DataTypes.STRING,
+        refreshToken:DataTypes.STRING,
     }, {
         sequelize, modelName: 'User',
         createdAt: false,
