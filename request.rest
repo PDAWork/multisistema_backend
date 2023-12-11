@@ -1,0 +1,15 @@
+### Авторизация пользователя
+POST http://localhost:3000/api/auth/signIn
+Content-Type: application/json
+
+{
+  "login":"zharkov_s@multisistema.ru",
+  "password": "123456"
+}
+
+
+### eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJpYXQiOjE3MDIxNDM2NzAsImV4cCI6MTcwMjIzMDA3MH0.tyCd0mIolQiTFmTYyqwTf7cyweaxfw8SA9kIwiEuRZI
+### 
+
+GET http://localhost:3000/api/object/objects/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJpYXQiOjE3MDIxNDM2NzAsImV4cCI6MTcwMjIzMDA3MH0.tyCd0mIolQiTFmTYyqwTf7cyweaxfw8SA9kIwiEuRZI

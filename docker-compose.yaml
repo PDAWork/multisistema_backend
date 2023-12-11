@@ -6,13 +6,15 @@ services:
     image: node:18-alpine
     command: sh -c "npm install && npm install -g nodemon &&  npm run dev"
     ports:
-      - 127.0.0.1:3000:3000
+      - 127.0.0.1:3000:1000
     working_dir: /app
     volumes:
       - ./:/app
   db:
     image: mysql
     restart: always
+    ports:
+      - 127.0.0.1:3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: admin
