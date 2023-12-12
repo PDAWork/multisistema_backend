@@ -48,6 +48,10 @@ db.Object.belongsTo(db.User, {
     foreignKey: "userId",
     as: "user"
 });
+db.Sensors.belongsTo(db.Object, {
+    foreignKey: "objectId",
+    as: "object"
+});
 
 
 module.exports = db;

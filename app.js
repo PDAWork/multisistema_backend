@@ -1,6 +1,7 @@
 const express = require('express');
 const authRoute = require("./routes/auth");
 const objectRoute = require("./routes/object");
+const meter = require("./routes/meter");
 const app = express();
 const jwt = require(`jsonwebtoken`);
 
@@ -22,6 +23,10 @@ app.use("/api/auth", authRoute);
 app.use("/api/object", (req, res, next) => {
     authenticateToken(req, res, next);
 }, objectRoute);
+app.use("/api/meter", (req, res, next) => {
+    authenticateToken(req, res, next);
+}, meter);
+
 
 function authenticateToken(req, res, next) {
     const authHeader = req.headers["authorization"];
