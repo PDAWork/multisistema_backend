@@ -1,18 +1,19 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class SensorMeter extends Model {
+  class MetersVals extends Model {
     static associate(models) {}
   }
-  SensorMeter.init(
+  MetersVals.init(
     {
       meterId: DataTypes.INTEGER,
-      objectId: DataTypes.STRING,
+      date: DataTypes.DATE,
+      value: DataTypes.DOUBLE,
     },
     {
       sequelize,
-      modelName: "SensorMeter",
+      modelName: "MetersVals",
     }
   );
-  return SensorMeter;
+  return MetersVals;
 };

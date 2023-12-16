@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("SensorMeters", {
+    await queryInterface.createTable("MetersVals", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -12,8 +12,11 @@ module.exports = {
       meterId: {
         type: Sequelize.INTEGER,
       },
-      objectId: {
-        type: Sequelize.INTEGER,
+      date: {
+        type: Sequelize.DATE,
+      },
+      value: {
+        type: Sequelize.DOUBLE,
       },
       createdAt: {
         allowNull: true,
@@ -24,25 +27,16 @@ module.exports = {
         type: Sequelize.DATE,
       },
     });
-
-    await queryInterface.addConstraint("SensorMeters", {
+    await queryInterface.addConstraint("MetersVals", {
       fields: ["meterId"],
       type: "foreign key",
-      name: "meter_ref_object",
+      name: "meter_ref_vals",
       references: { table: "Meters", field: "id" },
-      onDelete: "cascade",
-      onUpdate: "cascade",
-    });
-    await queryInterface.addConstraint("SensorMeters", {
-      fields: ["objectId"],
-      type: "foreign key",
-      name: "object_ref_meter",
-      references: { table: "Objects", field: "id" },
       onDelete: "cascade",
       onUpdate: "cascade",
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("SensorMeters");
+    await queryInterface.dropTable("MetersVals");
   },
 };

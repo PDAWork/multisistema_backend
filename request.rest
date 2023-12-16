@@ -1,5 +1,5 @@
 ### Авторизация пользователя
-POST http://localhost:5000/api/auth/signIn
+POST http://localhost:3000/api/auth/signIn
 Content-Type: application/json
 
 {
@@ -11,9 +11,19 @@ Content-Type: application/json
 ### 
 ### eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJpYXQiOjE3MDIzNjczMDIsImV4cCI6MTcwMjQ1MzcwMn0.VpQU5e9cKKj7PzipbS7mEXuHcEvDI0vpqFjwVmFOksg
 
-GET http://localhost:5000/api/object/objects/2
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJpYXQiOjE3MDIzNjczMDIsImV4cCI6MTcwMjQ1MzcwMn0.VpQU5e9cKKj7PzipbS7mEXuHcEvDI0vpqFjwVmFOksg
+GET http://localhost:3000/api/object/objects/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJpYXQiOjE3MDI3MjA4NzgsImV4cCI6MTcwMjgwNzI3OH0.riJstAR5k_5Tu_dQ2bIBAWCbvMuyARJLJARYwz2dLpQ
 
 ###
-GET http://localhost:5000/api/object/objectFull/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJpYXQiOjE3MDIzNjczMDIsImV4cCI6MTcwMjQ1MzcwMn0.VpQU5e9cKKj7PzipbS7mEXuHcEvDI0vpqFjwVmFOksg
+GET http://localhost:3000/api/object/objectFull/3055
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJpYXQiOjE3MDI3MjA4NzgsImV4cCI6MTcwMjgwNzI3OH0.riJstAR5k_5Tu_dQ2bIBAWCbvMuyARJLJARYwz2dLpQ
+
+
+###
+GET http://localhost:3000/api/meter/meter
+Content-Type: application/json
+
+{
+  "idObject":"zharkov_s@multisistema.ru",
+  "date": "123456"
+}

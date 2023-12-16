@@ -16,7 +16,7 @@ async function signIn(req, res) {
         return;
     }
 
-    const userRequest = await model.User.findOne({
+    const userRequest = await model.user.findOne({
         where: {login: user.login},
     });
     const data = {
@@ -52,7 +52,7 @@ async function signIn(req, res) {
                 refreshToken: token.refreshToken,
             };
 
-            model.User.create(UserProfile)
+            model.user.create(UserProfile)
                 .then((result) => {
                     res.status(201).json(UserProfile);
                 })
@@ -94,7 +94,7 @@ function generateToken(data) {
 
 async function refreshToken(req, res) {
     const refreshToken = req.body?.token;
-    const userQuery = await model.User.findOne({
+    const userQuery = await model.user.findOne({
         where: {
             refreshToken: refreshToken,
         },
