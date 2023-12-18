@@ -75,8 +75,36 @@ db.sensor.belongsTo(db.object, {
     as: "objects",
 });
 
-db.meter.belongsToMany(db.sensor, {through: "SensorMeters"});
-db.sensor.belongsToMany(db.meter, {through: "SensorMeters"});
+db.meter.belongsToMany(db.sensor, {
+    foreignKey: "sensorId",
+    through: "SensorMeters"
+});
+db.sensor.belongsToMany(db.meter, {
+    foreignKey: "meterId",
+    through: "SensorMeters"
+});
+
+db.sensorMeter.belongsTo(
+    db.sensor, {
+        foreignKey: "sensorId",
+    }
+)
+
+db.sensorMeter.belongsTo(
+    db.meter, {
+        as:"meter",
+        foreignKey: "meterId",
+    }
+)
+
+db.sensor.hasMany(db.sensorMeter,{
+    as:"meters",
+    foreignKey:"sensorId"
+})
+db.meter.hasMany(db.sensorMeter,{
+    foreignKey:"meterId"
+})
+
 
 
 db.meter.belongsTo(db.typeMeter, {

@@ -77,8 +77,8 @@ async function getMeters(req, res) {
                     },
                 )
                 for (let j = 0; j < metersSaurus[i].meters.length; j++) {
-                    await model.meter.create({
-                            id: metersSaurus[i].meters[j].meterId,
+                    let result = await model.meter.create({
+                            id: metersSaurus[i].meters[j].meter_id,
                             materName: metersSaurus[i].meters[j].meter_name,
                             snMeter: metersSaurus[i].meters[j].sn,
                             eircNum: metersSaurus[i].meters[j].eirc_num,
@@ -88,6 +88,11 @@ async function getMeters(req, res) {
                         },
                         {transaction: t}
                     );
+
+                    await model.sensorMeter.create({
+                        meterId: metersSaurus[i].meters[j].meter_id,
+                        sensorId: metersSaurus[i].sn,
+                    }, {transaction: t})
                 }
             }
             await t.commit();
@@ -121,13 +126,36 @@ async function getMeters(req, res) {
     //             },
     //         ],
     // });
-
+    //
     const meterT = await model.sensor.findAll(
             {
+                attributes:
+                    {
+                        exclude:
+                            [
+                                "ObjectId"
+                            ],
+                    },
                 include: [
                     {
                         model: model.sensorMeter,
-                        include: [model.sensor, model.meter]
+                        as: "meters",
+                        attributes:
+                            {
+                                exclude:
+                                    [
+                                        "meterId",
+                                        "sensorId",
+                                        "createdAt",
+                                        "updatedAt",
+                                    ],
+                            },
+                        include: [
+                            {
+                                as: "meter",
+                                model: model.meter,
+                            },
+                        ],
                     },
                     {
                         model: model.object,
@@ -150,15 +178,12 @@ async function getMeters(req, res) {
                     },
 
 
-                ]
-
+                ],
             },
         )
     ;
 
-
     res.status(200).json(meterT);
-
     return;
 }
 

@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
   SensorMeter.init(
     {
       meterId: DataTypes.INTEGER,
-      objectId: DataTypes.STRING,
+      sensorId: DataTypes.STRING,
     },
     {
       sequelize,
