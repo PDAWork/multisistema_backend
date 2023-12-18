@@ -52,7 +52,7 @@ async function getObjects(req, res) {
                 index++
             ) {
                 const object = resultUserObject.data.data.objects[index];
-                await model.Object.create({
+                await model.object.create({
                     id: object.id,
                     house: object.house,
                     lable: object.label,

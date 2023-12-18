@@ -12,8 +12,8 @@ module.exports = {
       meterId: {
         type: Sequelize.INTEGER,
       },
-      objectId: {
-        type: Sequelize.INTEGER,
+      sensorId: {
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: true,
@@ -34,10 +34,10 @@ module.exports = {
       onUpdate: "cascade",
     });
     await queryInterface.addConstraint("SensorMeters", {
-      fields: ["objectId"],
+      fields: ["sensorId"],
       type: "foreign key",
-      name: "object_ref_meter",
-      references: { table: "Objects", field: "id" },
+      name: "sensor_ref_meter",
+      references: { table: "Sensors", field: "sn" },
       onDelete: "cascade",
       onUpdate: "cascade",
     });

@@ -7,9 +7,15 @@ const process = require("process");
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || "development";
 const config = require(__dirname + "/../config/config.json")[env];
+// Model
 const user = require("../models/user");
 const object = require("../models/object");
 const sensor = require("../models/sensors");
+const meter = require("../models/meter");
+const typeMeter = require('../models/typemeter');
+const states = require('../models/state');
+
+const sensorMeter = require("../models/sensormeter");
 const db = {};
 
 let sequelize;
@@ -53,9 +59,10 @@ db.Sequelize = Sequelize;
 db.user = user(sequelize, Sequelize);
 db.object = object(sequelize, Sequelize);
 db.sensor = sensor(sequelize, Sequelize);
-
-// db.users = require('./user.js')(sequelize, Sequelize);
-// db.objects = require('./object.js')(sequelize, Sequelize);
+db.meter = meter(sequelize, Sequelize);
+db.typeMeter = typeMeter(sequelize, Sequelize);
+db.states = states(sequelize, Sequelize);
+db.sensorMeter = sensorMeter(sequelize, Sequelize);
 
 db.user.hasMany(db.object, {as: "objects"});
 db.object.hasMany(db.sensor, {as: "sensors"});
@@ -67,5 +74,18 @@ db.sensor.belongsTo(db.object, {
     foreignKey: "objectId",
     as: "objects",
 });
+
+db.meter.belongsToMany(db.sensor, {through: "SensorMeters"});
+db.sensor.belongsToMany(db.meter, {through: "SensorMeters"});
+
+
+db.meter.belongsTo(db.typeMeter, {
+    foreignKey: "typeId",
+    as: "typeMeter"
+})
+db.meter.belongsTo(db.states, {
+    foreignKey: "stateId",
+    as: "states"
+})
 
 module.exports = db;

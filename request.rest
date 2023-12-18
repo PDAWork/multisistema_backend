@@ -8,22 +8,21 @@ Content-Type: application/json
 }
 
 
-### 
-### eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJpYXQiOjE3MDIzNjczMDIsImV4cCI6MTcwMjQ1MzcwMn0.VpQU5e9cKKj7PzipbS7mEXuHcEvDI0vpqFjwVmFOksg
-
+### Получить все объекты пользователя
 GET http://localhost:3000/api/object/objects/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJpYXQiOjE3MDI3MjA4NzgsImV4cCI6MTcwMjgwNzI3OH0.riJstAR5k_5Tu_dQ2bIBAWCbvMuyARJLJARYwz2dLpQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTcwMjg5MjAwNiwiZXhwIjoxNzAyOTc4NDA2fQ.dRYhvlBlPhYAWva6Lxrk859HEQS-uZoctnNTKRuPOxU
 
-###
+### Получить один объект пользователя
 GET http://localhost:3000/api/object/objectFull/3055
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJpYXQiOjE3MDI3MjA4NzgsImV4cCI6MTcwMjgwNzI3OH0.riJstAR5k_5Tu_dQ2bIBAWCbvMuyARJLJARYwz2dLpQ
 
 
-###
+### Получить даные по объету пользователя
 GET http://localhost:3000/api/meter/meter
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTcwMjg5MjAwNiwiZXhwIjoxNzAyOTc4NDA2fQ.dRYhvlBlPhYAWva6Lxrk859HEQS-uZoctnNTKRuPOxU
 Content-Type: application/json
 
 {
-  "idObject":"zharkov_s@multisistema.ru",
+  "idObject": 3055  ,
   "date": "123456"
 }

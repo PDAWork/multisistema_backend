@@ -21,6 +21,7 @@ async function signIn(req, res) {
     });
     const data = {
         email: user.login,
+        password: user.password
     };
     const token = generateToken(data);
     if (userRequest == null) {
