@@ -19,14 +19,11 @@ async function getObjectFull(req, res) {
 
 /// Получить все объекты пользователя и подробную информацию
 async function getObjects(req, res) {
-    // // console.log(jwt.decode(req.headers["authorization"], {complete: true}))
-    // console.log(jwt.decode (req.headers["authorization"].split(' ')[1]))
-
-    const userId = req.params.userId;
+    const token = jwt.decode(req.headers["authorization"].split(" ")[1]);
 
     const user = await model.user.findOne({
         where: {
-            id: userId,
+            login: token.email,
         },
     });
 
@@ -36,58 +33,8 @@ async function getObjects(req, res) {
         });
         return;
     }
-    const object = await model.object.findAll({
-        where: {
-            userId: userId,
-        },
-    });
 
-    if (object.length === 0) {
-        const t = await model.sequelize.transaction();
-        try {
-            const resultUserObject = await getObjectSaurus(user);
-            for (
-                let index = 0;
-                index < resultUserObject.data.data.objects.length;
-                index++
-            ) {
-                const object = resultUserObject.data.data.objects[index];
-                await model.object.create({
-                    id: object.id,
-                    house: object.house,
-                    lable: object.label,
-                    accountId: object.object_company_account,
-                    personalAccount: object.personal_account,
-                    connectDate: object.connect_dt,
-                    enable: object.enable,
-                    balanceObject: 0,
-                    userId: userId,
-                    accesLevel: object.access_level,
-                    objectCompanyName: object.object_company_name,
-                    objectCompanyUrl: object.object_company_url,
-                }, {transaction: t});
-            }
-
-            await t.commit();
-
-            const objects = await model.object.findAll({
-                where: {
-                    userId: userId,
-                },
-            });
-
-            res.status(200).json(
-                objects
-            );
-            return;
-        } catch (error) {
-            await t.rollback();
-            res.status(500).json({
-                message: "Ошибка сервера",
-            });
-            return;
-        }
-    }
+    let object = await getData(user.id);
 
     let isCheck = false;
     const currentDate = new Date();
@@ -102,10 +49,9 @@ async function getObjects(req, res) {
         }
     }
 
-    if (isCheck) {
+    if (isCheck || object.length === 0) {
         const t = await model.sequelize.transaction();
         try {
-
             const resultUserObject = await getObjectSaurus(user);
             for (
                 let index = 0;
@@ -113,63 +59,53 @@ async function getObjects(req, res) {
                 index++
             ) {
                 const object = resultUserObject.data.data.objects[index];
-                const result = await model.object.update(
+                await model.object.findOrCreate(
                     {
-                        house: object.house,
-                        lable: object.label,
-                        accountId: object.object_company_account,
-                        personalAccount: object.personal_account,
-                        connectDate: object.connect_dt,
-                        enable: object.enable,
-                        accesLevel: object.access_level,
-                        objectCompanyName: object.object_company_name,
-                        objectCompanyUrl: object.object_company_url,
+                        where: {id: object.id},
+                        defaults: {
+                            house: object.house,
+                            number: object.number,
+                            lable: object.label,
+                            accountId: object.object_company_account,
+                            personalAccount: object.personal_account,
+                            connectDate: object.connect_dt,
+                            enable: object.enable,
+                            balanceObject: 0,
+                            userId: user.id,
+                            accesLevel: object.access_level,
+                            objectCompanyName: object.object_company_name,
+                            objectCompanyUrl: object.object_company_url,
+                        },
+                        transaction: t
                     },
-                    {where: {id: object.id}}, {transaction: t}
                 );
-
-                if (result == 0) {
-                    await model.object.create({
-                        id: object.id,
-                        house: object.house,
-                        lable: object.label,
-                        accountId: object.object_company_account,
-                        personalAccount: object.personal_account,
-                        connectDate: object.connect_dt,
-                        enable: object.enable,
-                        balanceObject: 0,
-                        userId: userId,
-                        accesLevel: object.access_level,
-                        objectCompanyName: object.object_company_name,
-                        objectCompanyUrl: object.object_company_url,
-                    }, {transaction: t});
-                }
-
             }
             t.commit();
-            const object = await model.object.findAll({
-                where: {
-                    userId: userId,
-                },
-            });
-            res.status(200).json(object);
-            return;
         } catch (error) {
             await t.rollback();
             res.status(500).json({
-                message: "Ошибка сервера",
+                message: error.message,
             });
             return;
         }
 
     }
+    object = await getData(user.id);
 
-    if (object.length != 0) {
-        res.status(200).json(object);
-        return;
-    }
+    return res.status(200).json(object);
+}
 
-    res.status(200).json(object);
+
+async function getData(userId) {
+    const data = await model.object.findAll({
+        attributes: {
+            exclude: ['userId', "UserId"]
+        },
+        where: {
+            userId: userId,
+        },
+    });
+    return data;
 }
 
 async function getObjectSaurus(user) {
@@ -189,6 +125,7 @@ async function getObjectSaurus(user) {
     const resultUserObject = await axios.get(
         `https://api.saures.ru/1.0/user/objects?sid=${userRequest.data.data.sid}`
     );
+
     return resultUserObject;
 }
 

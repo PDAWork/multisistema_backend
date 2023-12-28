@@ -12,6 +12,9 @@ module.exports = {
             house: {
                 type: Sequelize.STRING
             },
+            number: {
+                type: Sequelize.STRING
+            },
             lable: {
                 type: Sequelize.STRING
             },

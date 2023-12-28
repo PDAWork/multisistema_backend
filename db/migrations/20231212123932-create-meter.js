@@ -18,7 +18,7 @@ module.exports = {
       eircNum: {
         type: Sequelize.STRING
       },
-      ingoText: {
+      infoText: {
         type: Sequelize.STRING
       },
       typeId: {

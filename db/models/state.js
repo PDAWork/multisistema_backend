@@ -11,6 +11,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "State",
+      createdAt: false,
+      updatedAt: false,
     }
   );
   return State;

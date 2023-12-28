@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
             materName: DataTypes.STRING,
             snMeter: DataTypes.STRING,
             eircNum: DataTypes.STRING,
-            ingoText: DataTypes.STRING,
+            infoText: DataTypes.STRING,
             typeId: DataTypes.INTEGER,
             stateId: DataTypes.INTEGER,
         },

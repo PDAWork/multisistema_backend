@@ -12,9 +12,9 @@ module.exports = {
       meterId: {
         type: Sequelize.INTEGER,
       },
-      date: {
-        type: Sequelize.DATE,
-      },
+      // date: {
+      //   type: Sequelize.DATE,
+      // },
       value: {
         type: Sequelize.DOUBLE,
       },

@@ -3,26 +3,25 @@ POST http://localhost:3000/api/auth/signIn
 Content-Type: application/json
 
 {
-  "login":"zharkov_s@multisistema.ru",
+  "login": "zharkov_s@multisistema.ru",
   "password": "123456"
 }
 
 
 ### Получить все объекты пользователя
-GET http://localhost:3000/api/object/objects/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTcwMjg5MjAwNiwiZXhwIjoxNzAyOTc4NDA2fQ.dRYhvlBlPhYAWva6Lxrk859HEQS-uZoctnNTKRuPOxU
-
+GET http://localhost:3000/api/object/objects
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTcwMzcxMTY2NCwiZXhwIjoxNzAzNzk4MDY0fQ.R86di2YnNLhsMYc8Q6d6H3R_qrS9cf9SkiWWF0f9YpU
 ### Получить один объект пользователя
 GET http://localhost:3000/api/object/objectFull/3055
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJpYXQiOjE3MDI3MjA4NzgsImV4cCI6MTcwMjgwNzI3OH0.riJstAR5k_5Tu_dQ2bIBAWCbvMuyARJLJARYwz2dLpQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTcwMzMzMDg5NCwiZXhwIjoxNzAzNDE3Mjk0fQ.8GsYYfxyqf_sV32yZnQEn1o8Tq3oyuCkQu0pwTbX1Qk
 
 
 ### Получить даные по объету пользователя
 GET http://localhost:3000/api/meter/meter
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTcwMjg5MjAwNiwiZXhwIjoxNzAyOTc4NDA2fQ.dRYhvlBlPhYAWva6Lxrk859HEQS-uZoctnNTKRuPOxU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTcwMzMzMDg5NCwiZXhwIjoxNzAzNDE3Mjk0fQ.8GsYYfxyqf_sV32yZnQEn1o8Tq3oyuCkQu0pwTbX1Qk
 Content-Type: application/json
 
 {
-  "idObject": 3055  ,
+  "idObject": 3118,
   "date": "123456"
 }

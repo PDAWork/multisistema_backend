@@ -8,7 +8,6 @@ async function signIn(req, res) {
     const user = {
         login: req.body.login, password: req.body.password,
     };
-
     if (!user.login || !user.password) {
         res.status(400).json({
             errorMessage: "Не все поля были заполнены",
@@ -36,7 +35,7 @@ async function signIn(req, res) {
 
             if (result.data.errors.length !== 0) if (result.data.errors[0].name === "WrongCredsException") {
                 return res.status(400).json({
-                    message: "Неправильный email или пароль",
+                    errorMessage: result.data.errors[0].msg,
                 });
             }
 
@@ -53,15 +52,14 @@ async function signIn(req, res) {
                 refreshToken: token.refreshToken,
             };
 
-            model.user.create(UserProfile)
-                .then((result) => {
-                    res.status(201).json(UserProfile);
-                })
+            const resultUser = await model.user.create(UserProfile);
+            delete UserProfile.password;
+            res.status(201).json(UserProfile);
             return;
         } catch (error) {
             console.log(error);
             res.status(400).json({
-                message: "Попробуйте чуть позже авторизоваться",
+                errorMessage: "Попробуйте чуть позже авторизоваться",
             });
             return;
         }
@@ -78,6 +76,7 @@ async function signIn(req, res) {
         accessToken: token.accessToken,
         refreshToken: token.refreshToken,
     };
+    delete UserProfile.password;
 
     res.status(200).json(UserProfile);
 }
@@ -104,7 +103,7 @@ async function refreshToken(req, res) {
     if (refreshToken == null) return res
         .status(401)
         .json({
-            message: "Пользователь не авторизован",
+            errorMessage: "Пользователь не авторизован",
         })
         .end();
 
@@ -120,6 +119,7 @@ async function refreshToken(req, res) {
         userQuery.refreshToken = token.refreshToken;
         await userQuery.save();
         res.json({
+            refreshToken: token.refreshToken,
             accessToken: token.accessToken,
         });
     });

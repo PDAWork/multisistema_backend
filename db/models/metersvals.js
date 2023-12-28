@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
   MetersVals.init(
     {
       meterId: DataTypes.INTEGER,
-      date: DataTypes.DATE,
+      // date: DataTypes.DATE,
       value: DataTypes.DOUBLE,
     },
     {

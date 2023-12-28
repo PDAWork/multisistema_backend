@@ -3,7 +3,7 @@ const controller = require('../controller/object');
 
 const router = express.Router();
 
-router.get("/objects/:userId", controller.getObjects);
+router.get("/objects", controller.getObjects);
 router.get("/objectFull/:id", controller.getObjectFull);
 router.get("/objectShortened/:id", controller.getObjectShortened);
 
