@@ -5,44 +5,50 @@ const axios = require("axios");
 async function getMeters(req, res) {
     const token = jwt.decode(req.headers["authorization"].split(" ")[1]);
     const idObject = req.body.idObject;
+    const date = new Date();
+    const dateWhere = req.body.date === undefined ? date.toISOString().slice(0, 19) :
+        new Date(req.body.date).toISOString().slice(0, 19);
 
+    console.log(dateWhere);
     //  Поиск метрик пользователя
-    const sensor = await model.sensor.findAll(
-        {
-            include: [
-                {
-                    model: model.object, as: "objects", attributes: [], where: {
-                        id: idObject
-                    }
-                },
-            ]
-        },
-        {
-            model: model.user, as: "user", attributes: ["password", "login"], where: {
-                login: token.email,
-            },
-        }
-    );
+    // const sensor = await model.sensor.findAll(
+    //     {
+    //         include: [
+    //             {
+    //                 model: model.object, as: "objects", attributes: [], where: {
+    //                     id: idObject
+    //                 }
+    //             },
+    //         ]
+    //     },
+    //     {
+    //         model: model.user, as: "user", attributes: ["password", "login"], where: {
+    //             login: token.email,
+    //         },
+    //     }
+    // )
+    const sensor = await getData(token, idObject, dateWhere.slice(0, 10))
 
     let isCheck = false;
-
     if (sensor.length !== 0) {
         const currentDate = new Date();
         const oneWeekInMillis = 60 * 60 * 1000; // обвновление каждый час
         for (let index = 0; index < sensor.length; index++) {
             const updateDate = new Date(sensor[index].updatedAt);
             const timeDifference = currentDate.getTime() - updateDate.getTime();
+            isCheck = sensor[index].meters[index].meter === null;
+            if (isCheck) {
+                break;
+            }
+
             if ((isCheck = timeDifference > oneWeekInMillis)) {
-                console.log("date")
                 break;
             }
         }
     }
 
     if (isCheck || sensor.length === 0) {
-        console.log("update");
-        const date = new Date();
-        const metersSaurus = await getMetersSaurus(token, idObject, date.toISOString().slice(0, 19));
+        const metersSaurus = await getMetersSaurus(token, idObject, dateWhere);
         const t = await model.sequelize.transaction();
 
         try {
@@ -152,20 +158,23 @@ async function getMeters(req, res) {
                     }
 
                     for (let k = 0; k < metersSaurus[i].meters[j].vals.length; k++) {
+                        console.log(dateWhere);
                         const [resultMetersVals, createdMetersVals] = await model.metersVals.findOrCreate({
-                            where: {meterId: metersSaurus[i].meters[j].meter_id},
+                            where: {meterId: metersSaurus[i].meters[j].meter_id, date: dateWhere.slice(0, 10),},
                             defaults: {
                                 meterId: metersSaurus[i].meters[j].meter_id,
+                                date: dateWhere.slice(0, 10),
                                 value: metersSaurus[i].meters[j].vals[k],
                             },
                             transaction: t
                         });
 
                         if (!createdMetersVals) {
+                            console.log(dateWhere);
                             await model.metersVals.update({
                                 value: metersSaurus[i].meters[j].vals[k],
                             }, {
-                                where: {meterId: metersSaurus[i].meters[j].meter_id},
+                                where: {meterId: metersSaurus[i].meters[j].meter_id, date: dateWhere.slice(0, 10)},
                                 transaction: t
                             });
                         }
@@ -180,12 +189,12 @@ async function getMeters(req, res) {
         }
     }
 
-    const sensorResult = await getData(token, idObject);
+    const sensorResult = await getData(token, idObject, dateWhere.slice(0, 10));
     return await res.status(200).json(sensorResult);
 
 }
 
-async function getData(token, idObject) {
+async function getData(token, idObject, date) {
     return await model.sensor.findAll({
         attributes: {
             exclude: ["ObjectId", "objectId"],
@@ -202,6 +211,9 @@ async function getData(token, idObject) {
                     {model: model.states, as: "State"},
                     {
                         model: model.metersVals,
+                        where: {
+                            date: date
+                        },
                         attributes: {
                             exclude: ["id", "meterId", "createdAt", "updatedAt",],
                         }

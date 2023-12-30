@@ -59,7 +59,7 @@ async function getObjects(req, res) {
                 index++
             ) {
                 const object = resultUserObject.data.data.objects[index];
-                await model.object.findOrCreate(
+                const objectQuery = await model.object.findOrCreate(
                     {
                         where: {id: object.id},
                         defaults: {
@@ -79,6 +79,24 @@ async function getObjects(req, res) {
                         transaction: t
                     },
                 );
+
+                if (!objectQuery) {
+                    await model.object.update(
+                        {
+                            house: object.house,
+                            lable: object.label,
+                            accountId: object.object_company_account,
+                            personalAccount: object.personal_account,
+                            connectDate: object.connect_dt,
+                            enable: object.enable,
+                            accesLevel: object.access_level,
+                            objectCompanyName: object.object_company_name,
+                            objectCompanyUrl: object.object_company_url,
+                        },
+                        {where: {id: object.id}}, {transaction: t}
+                    );
+                }
+
             }
             t.commit();
         } catch (error) {
