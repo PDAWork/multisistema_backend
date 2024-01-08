@@ -9,24 +9,6 @@ async function getMeters(req, res) {
     const dateWhere = req.body.date === undefined ? date.toISOString().slice(0, 19) :
         new Date(req.body.date).toISOString().slice(0, 19);
 
-    console.log(dateWhere);
-    //  Поиск метрик пользователя
-    // const sensor = await model.sensor.findAll(
-    //     {
-    //         include: [
-    //             {
-    //                 model: model.object, as: "objects", attributes: [], where: {
-    //                     id: idObject
-    //                 }
-    //             },
-    //         ]
-    //     },
-    //     {
-    //         model: model.user, as: "user", attributes: ["password", "login"], where: {
-    //             login: token.email,
-    //         },
-    //     }
-    // )
     const sensor = await getData(token, idObject, dateWhere.slice(0, 10))
 
     let isCheck = false;
@@ -34,14 +16,21 @@ async function getMeters(req, res) {
         const currentDate = new Date();
         const oneWeekInMillis = 60 * 60 * 1000; // обвновление каждый час
         for (let index = 0; index < sensor.length; index++) {
-            const updateDate = new Date(sensor[index].updatedAt);
-            const timeDifference = currentDate.getTime() - updateDate.getTime();
-            isCheck = sensor[index].meters[index].meter === null;
-            if (isCheck) {
-                break;
+            for (let i = 0; i < sensor[index].meters.length; i++) {
+                console.log(sensor[index].meters[i].meter.MetersVals.length);
+                if (isCheck = (sensor[index].meters[i].meter.MetersVals.length == 0)) {
+                    break;
+                }
+                const updateDate = new Date(sensor[index].meters[i].meter.MetersVals[0].date);
+                const timeDifference = currentDate.getTime() - updateDate.getTime();
+                if ((isCheck = timeDifference > oneWeekInMillis)) {
+                    break;
+                }
+                if (isCheck = (sensor[index].meters[i].meter == null)) {
+                    break;
+                }
             }
-
-            if ((isCheck = timeDifference > oneWeekInMillis)) {
+            if (isCheck) {
                 break;
             }
         }
@@ -127,12 +116,12 @@ async function getMeters(req, res) {
                         where: {id: metersSaurus[i].meters[j].meter_id},
                         defaults: {
                             id: metersSaurus[i].meters[j].meter_id,
-                            materName: metersSaurus[i].meters[j].meter_name,
+                            meterName: metersSaurus[i].meters[j].meter_name,
                             snMeter: metersSaurus[i].meters[j].sn,
                             eircNum: metersSaurus[i].meters[j].eirc_num,
                             infoText: metersSaurus[i].meters[j].vals[0] === 0 ? metersSaurus[i].meters[j].passive_text : metersSaurus[i].meters[j].active_text,
                             typeId: metersSaurus[i].meters[j].type.number,
-                            stateId: metersSaurus[i].meters[j].state.number,
+                            stateId: metersSaurus[i].meters[j].state.number === undefined ? 0 : metersSaurus[i].meters[j].state.number,
                         },
                         transaction: t
                     });
@@ -141,12 +130,12 @@ async function getMeters(req, res) {
                     if (!createdMeter) {
                         await model.meter.update({
                             id: metersSaurus[i].meters[j].meter_id,
-                            materName: metersSaurus[i].meters[j].meter_name,
+                            meterName: metersSaurus[i].meters[j].meter_name,
                             snMeter: metersSaurus[i].meters[j].sn,
                             eircNum: metersSaurus[i].meters[j].eirc_num,
                             infoText: metersSaurus[i].meters[j].info_text,
                             typeId: metersSaurus[i].meters[j].type.number,
-                            stateId: metersSaurus[i].meters[j].state.number,
+                            stateId: metersSaurus[i].meters[j].state == null ? 0 : metersSaurus[i].meters[j].state.number,
                         }, {
                             where: {id: metersSaurus[i].meters[j].meter_id},
                             transaction: t
@@ -160,10 +149,13 @@ async function getMeters(req, res) {
                     for (let k = 0; k < metersSaurus[i].meters[j].vals.length; k++) {
                         console.log(dateWhere);
                         const [resultMetersVals, createdMetersVals] = await model.metersVals.findOrCreate({
-                            where: {meterId: metersSaurus[i].meters[j].meter_id, date: dateWhere.slice(0, 10),},
+                            where: {
+                                meterId: metersSaurus[i].meters[j].meter_id,
+                                date: new Date(dateWhere.slice(0, 10)),
+                            },
                             defaults: {
                                 meterId: metersSaurus[i].meters[j].meter_id,
-                                date: dateWhere.slice(0, 10),
+                                date: new Date(dateWhere.slice(0, 10)),
                                 value: metersSaurus[i].meters[j].vals[k],
                             },
                             transaction: t
@@ -195,6 +187,7 @@ async function getMeters(req, res) {
 }
 
 async function getData(token, idObject, date) {
+    console.log('Local');
     return await model.sensor.findAll({
         attributes: {
             exclude: ["ObjectId", "objectId"],
@@ -212,8 +205,9 @@ async function getData(token, idObject, date) {
                     {
                         model: model.metersVals,
                         where: {
-                            date: date
+                            date: new Date(date)
                         },
+                        required: false,
                         attributes: {
                             exclude: ["id", "meterId", "createdAt", "updatedAt",],
                         }
@@ -235,6 +229,7 @@ async function getData(token, idObject, date) {
 }
 
 async function getMetersSaurus(user, idObject, date) {
+    console.log('Remote');
     try {
         const userRequest = await axios.post("https://api.saures.ru/1.0/login", {
             email: user.email, password: user.password,
@@ -244,6 +239,7 @@ async function getMetersSaurus(user, idObject, date) {
             },
         });
         const resultUserObject = await axios.get(`https://api.saures.ru/1.0/object/meters?sid=${userRequest.data.data.sid}&id=${idObject}&date=${date}`);
+        console.log(resultUserObject);
         return resultUserObject.data.data.sensors;
     } catch (e) {
         return [];

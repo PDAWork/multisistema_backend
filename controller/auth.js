@@ -113,6 +113,7 @@ async function refreshToken(req, res) {
         if (err) return res.status(403).end();
         const data = {
             email: jwt.decode(refreshToken).email,
+            password: jwt.decode(refreshToken).password,
         };
 
         const token = generateToken(data);
@@ -128,6 +129,7 @@ async function refreshToken(req, res) {
 //Регистрация пользователя в системе
 async function signUp(req, res) {
 }
+
 
 module.exports = {
     signIn: signIn, signUp: signUp, refreshToken: refreshToken,

@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
                 primaryKey: true,
             },
-            materName: DataTypes.STRING,
+            meterName: DataTypes.STRING,
             snMeter: DataTypes.STRING,
             eircNum: DataTypes.STRING,
             infoText: DataTypes.STRING,

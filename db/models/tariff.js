@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
   Tariff.init(
     {
       name: DataTypes.STRING,
+      cost: DataTypes.INTEGER,
     },
     {
       sequelize,
