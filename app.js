@@ -37,6 +37,9 @@ app.use(
 );
 app.use(
     "/api/pay",
+    (req, res, next) => {
+        authenticateToken(req, res, next);
+    },
     payRouter
 )
 

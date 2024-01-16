@@ -8,6 +8,8 @@ function getObjectShortened(req, res) {
 
 /// Получить один объект но с полной информацией
 async function getObjectFull(req, res) {
+    console.log(req.params.id);
+    console.log(req);
     const id = req.params.id;
     const object = await model.object.findOne({where: {id: id}})
     if (object === null) {

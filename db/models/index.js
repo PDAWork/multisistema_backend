@@ -18,6 +18,7 @@ const metersVals = require('../models/metersvals');
 
 const sensorMeter = require("../models/sensormeter");
 const tariff = require("../models/tariff");
+const tariffObject = require("../models/tariffobject");
 const db = {};
 
 let sequelize;
@@ -66,7 +67,8 @@ db.typeMeter = typeMeter(sequelize, Sequelize);
 db.states = states(sequelize, Sequelize);
 db.sensorMeter = sensorMeter(sequelize, Sequelize);
 db.metersVals = metersVals(sequelize, Sequelize);
-db.tariff = tariff(sequelize,Sequelize);
+db.tariff = tariff(sequelize, Sequelize);
+db.tariffObject = tariffObject(sequelize, Sequelize);
 
 db.user.hasMany(db.object, {as: "objects"});
 db.object.hasMany(db.sensor, {as: "sensors"});
@@ -109,8 +111,8 @@ db.meter.hasMany(db.sensorMeter, {
     foreignKey: "meterId"
 })
 
-db.meter.hasMany(db.metersVals,{
-    foreignKey:"meterId"
+db.meter.hasMany(db.metersVals, {
+    foreignKey: "meterId"
 })
 
 db.meter.belongsTo(db.typeMeter, {
@@ -123,6 +125,16 @@ db.meter.belongsTo(db.states, {
     foreignKey: "stateId",
     as: "State" // Add an alias for the association
 });
+
+
+db.tariffObject.belongsTo(db.tariff, {
+    foreignKey: "tariffId",
+    as: "tariff"
+})
+db.tariffObject.belongsTo(db.object, {
+    foreignKey: "objectId",
+    as: "object"
+})
 
 
 module.exports = db;

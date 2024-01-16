@@ -10,7 +10,7 @@ Content-Type: application/json
 
 ### Получить все объекты пользователя
 GET http://localhost:3000/api/object/objects
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTcwMzg4MzIyNywiZXhwIjoxNzAzOTY5NjI3fQ.Q-lcSuQNx4bq4XCtteI02cPhxow_NHaZE0PzUUP5fZ4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTcwNTM5Mjg4NiwiZXhwIjoxNzA1NDc5Mjg2fQ.-x38vdXkK3utOwD3ejQQb9ul1wB46ngga2TTRZ0fDl0
 
 ### Получить один объект пользователя
 GET http://localhost:3000/api/object/objectFull/3055
@@ -28,9 +28,20 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:1000/api/pay/tariff
+GET http://localhost:3000/api/pay/tariff
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTcwNTM5Mjg4NiwiZXhwIjoxNzA1NDc5Mjg2fQ.-x38vdXkK3utOwD3ejQQb9ul1wB46ngga2TTRZ0fDl0
 Content-Type: application/json
 
 ###
-GET https://run.mocky.io/v3/35e0d18e-2521-4f1b-a575-f0fe366f66e3
+GET http://localhost:3000/api/pay/tariff
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTcwNTM5Mjg4NiwiZXhwIjoxNzA1NDc5Mjg2fQ.-x38vdXkK3utOwD3ejQQb9ul1wB46ngga2TTRZ0fDl0
+Content-Type: application/json
+###
+GET http://localhost:3000/api/pay/allTariffObject
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTcwNTM5Mjg4NiwiZXhwIjoxNzA1NDc5Mjg2fQ.-x38vdXkK3utOwD3ejQQb9ul1wB46ngga2TTRZ0fDl0
+Content-Type: application/json
+
+###
+POST http://localhost:3000/api/pay/pay
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTcwNTM5Mjg4NiwiZXhwIjoxNzA1NDc5Mjg2fQ.-x38vdXkK3utOwD3ejQQb9ul1wB46ngga2TTRZ0fDl0
 Content-Type: application/json
