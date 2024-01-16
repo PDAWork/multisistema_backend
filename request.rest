@@ -19,9 +19,18 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb
 
 ### Получить даные по объету пользователя
 GET http://localhost:3000/api/meter/meter
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTcwMzg1MzY3OCwiZXhwIjoxNzAzOTQwMDc4fQ.g-grLT8a1_e-rIBcmileGx2U3C97H5yqNp6c17xBTuw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTcwNDY0MTIzOSwiZXhwIjoxNzA0NzI3NjM5fQ.VNO-QLDI01QaEggbO1aS_1MdMmNrpwUdzcQZ0_w_06k
 Content-Type: application/json
 
 {
-  "idObject": 3118
+  "idObject": 3118,
+  "date": "2024-01-06T00:00:00.000"
 }
+
+###
+GET http://localhost:1000/api/pay/tariff
+Content-Type: application/json
+
+###
+GET https://run.mocky.io/v3/35e0d18e-2521-4f1b-a575-f0fe366f66e3
+Content-Type: application/json

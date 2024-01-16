@@ -12,6 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Tariff",
+      createdAt: false,
+      updatedAt: false,
     }
   );
   return Tariff;

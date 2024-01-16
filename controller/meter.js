@@ -21,7 +21,7 @@ async function getMeters(req, res) {
                 if (isCheck = (sensor[index].meters[i].meter.MetersVals.length == 0)) {
                     break;
                 }
-                const updateDate = new Date(sensor[index].meters[i].meter.MetersVals[0].date);
+                const updateDate = new Date(sensor[index].meters[i].meter.MetersVals[0].updatedAt);
                 const timeDifference = currentDate.getTime() - updateDate.getTime();
                 if ((isCheck = timeDifference > oneWeekInMillis)) {
                     break;
@@ -37,10 +37,10 @@ async function getMeters(req, res) {
     }
 
     if (isCheck || sensor.length === 0) {
-        const metersSaurus = await getMetersSaurus(token, idObject, dateWhere);
         const t = await model.sequelize.transaction();
 
         try {
+            const metersSaurus = await getMetersSaurus(token, idObject, dateWhere);
             for (let i = 0; i < metersSaurus.length; i++) {
                 let [resultSensor, createdSensor] = await model.sensor.findOrCreate({
                     where: {sn: metersSaurus[i].sn},
@@ -176,7 +176,8 @@ async function getMeters(req, res) {
             await t.commit();
         } catch (e) {
             console.log(e);
-            res.status(200).json([]);
+            res.status(400).json([]);
+            await t.rollback()
             return;
         }
     }
@@ -242,7 +243,7 @@ async function getMetersSaurus(user, idObject, date) {
         console.log(resultUserObject);
         return resultUserObject.data.data.sensors;
     } catch (e) {
-        return [];
+        throw new Error('Ошибка сервера')
     }
 }
 
