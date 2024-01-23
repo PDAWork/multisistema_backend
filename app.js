@@ -35,11 +35,22 @@ app.use(
     },
     meter
 );
+app.post('/webhook/ukassa', async (request, response) => {
+    if (request.body.event == "payment.waiting_for_capture") {
+        let payment_id = request.body.object.id;
+        let status = request.body.object.status;
+        if (status == "waiting_for_capture") {
+            console.log("оплатил");
+        }
+    }
+    response.send("OK");
+});
+
 app.use(
     "/api/pay",
-    (req, res, next) => {
-        authenticateToken(req, res, next);
-    },
+    // (req, res, next) => {
+    //     authenticateToken(req, res, next);
+    // },
     payRouter
 )
 

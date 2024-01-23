@@ -1,7 +1,7 @@
 const model = require("../db/models/index");
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
-const { v4: uuidv4 } = require('uuid');
+const {v4: uuidv4} = require('uuid');
 
 // токен
 const authorization = "Basic NjExMjc0OnRlc3RfODlOZnoxVjlEcFdlM1Rwa1JYSkhOSDFMY245aWlxNGdiQWFNejlraE4zSQ==";
@@ -23,7 +23,7 @@ async function pay(req, res) {
             "capture": true,
             "confirmation": {
                 "type": "redirect",
-                "return_url": 'https://multisistema.ru/price/#rec598340657'
+                "return_url": 'localhost:1000/webhook/ukassa'
             },
         };
 
@@ -31,15 +31,16 @@ async function pay(req, res) {
             headers: headers,
         });
 
-        if (payRemote.status == "pending") {
-            response.send({
-                "url": payRemote.confirmation.confirmation_url,
+        if (payRemote.data.status == "pending") {
+
+            return await res.send({
+                "url": payRemote.data.confirmation.confirmation_url,
             });
         }
     } catch (er) {
         console.log("ERROR");
         console.log(e.message);
-        return response.send({
+        return res.send({
             "status": "error",
             "body": e.message
         });

@@ -42,6 +42,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb
 Content-Type: application/json
 
 ###
-POST http://localhost:3000/api/pay/pay
+POST http://localhost:1000/api/pay/pay
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTcwNTM5Mjg4NiwiZXhwIjoxNzA1NDc5Mjg2fQ.-x38vdXkK3utOwD3ejQQb9ul1wB46ngga2TTRZ0fDl0
 Content-Type: application/json
