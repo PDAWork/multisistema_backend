@@ -50,6 +50,7 @@ async function signIn(req, res) {
                 sid: result.data.data.sid,
                 accessToken: token.accessToken,
                 refreshToken: token.refreshToken,
+                idRole: 2
             };
 
             const resultUser = await model.user.create(UserProfile);
@@ -75,6 +76,7 @@ async function signIn(req, res) {
         phone: userRequest.phone,
         accessToken: token.accessToken,
         refreshToken: token.refreshToken,
+        idRole: userRequest.idRole,
     };
     delete UserProfile.password;
 
