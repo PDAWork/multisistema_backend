@@ -86,7 +86,7 @@ async function signIn(req, res) {
 function generateToken(data) {
     const refreshToken = jwt.sign(data, process.env.REFRESH_TOKEN_SECRET);
     const accessToken = jwt.sign(data, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "24h",
+        expiresIn: "10s",
     });
 
     return {

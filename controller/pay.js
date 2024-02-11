@@ -4,10 +4,16 @@ const jwt = require("jsonwebtoken");
 const {v4: uuidv4} = require('uuid');
 
 // токен
-const authorization = "Basic NjExMjc0OnRlc3RfODlOZnoxVjlEcFdlM1Rwa1JYSkhOSDFMY245aWlxNGdiQWFNejlraE4zSQ==";
+const authorization = process.env.API_TOKEN_YOUKASSA;
 
 async function pay(req, res) {
     try {
+
+        const tariffId = await model.tariff.findOne({
+            where: {
+                id: req.body.tariffId
+            }
+        });
 
         var headers = {
             "Authorization": authorization,
@@ -17,13 +23,13 @@ async function pay(req, res) {
 
         var params = {
             "amount": {
-                "value": 200,
+                "value": tariffId.cost,
                 "currency": "RUB"
             },
-            "capture": true,
+            "capture": false,
             "confirmation": {
                 "type": "redirect",
-                "return_url": 'localhost:1000/webhook/ukassa'
+                "return_url": ''
             },
         };
 
@@ -32,12 +38,27 @@ async function pay(req, res) {
         });
 
         if (payRemote.data.status == "pending") {
+            const token = jwt.decode(req.headers["authorization"].split(" ")[1]);
 
+            const user = await model.user.findOne({
+                where: {
+                    login: token.email,
+                },
+            });
+
+            await model.orders.create({
+                "idOrder": payRemote.data.id,
+                "status": "pending",
+                "userId": user.id,
+            })
+            console.log(payRemote.data.id)
             return await res.send({
                 "url": payRemote.data.confirmation.confirmation_url,
+                "orderId": payRemote.data.id
             });
         }
-    } catch (er) {
+
+    } catch (e) {
         console.log("ERROR");
         console.log(e.message);
         return res.send({
@@ -48,16 +69,45 @@ async function pay(req, res) {
 
 }
 
-// exports.UkassaWebHook = functions.https.onRequest(async (request, response) => {
-//     if (request.body.event == "payment.waiting_for_capture") {
-//         let payment_id = request.body.object.id;
-//         let status = request.body.object.status;
-//         if (status == "waiting_for_capture") {
-//             console.log("оплатил")
-//         }
-//     }
-//     response.send("OK");
-// });
+async function webhook(request, response) {
+    console.log(request.body)
+    if (request.body.event == "payment.waiting_for_capture") {
+        let payment_id = request.body.object.id;
+        let status = request.body.object.status;
+        console.log("оплата прошла");
+        if (status == "waiting_for_capture") {
+            console.log("оплата прошла")
+            await model.orders.update({"status": "succeeded"}, {
+                where: {
+                    idOrder: payment_id
+                }
+            })
+            await getPayment(payment_id);
+            console.log("оплатил");
+        }
+    }
+    response.send("OK");
+}
+
+const getPayment = async (payment_id) => {
+    const url = `https://api.yookassa.ru/v3/payments/${payment_id}/capture`;
+
+    var headers = {
+        "Authorization": authorization,
+        "Idempotence-Key": uuidv4().toString(),
+        "Content-Type": 'application/json'
+    };
+
+    return await axios.post(url, {}, {
+        headers: headers,
+    }).then((res) => res.data).then(async (res) => {
+        console.log("Платеж успешно подтвержден", res);
+        return true;
+    }).catch((err) => {
+        console.log("Ошибка при подтверждении платежа", err);
+        return false;
+    });
+}
 
 async function getAllTariff(req, res) {
     const tariffQuery = await model.tariff.findAll();
@@ -126,5 +176,6 @@ module.exports = {
     pay,
     getAllTariff,
     getTariffObject,
-    getAllTariffObject
+    getAllTariffObject,
+    webhook
 }

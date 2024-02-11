@@ -19,6 +19,7 @@ const metersVals = require('../models/metersvals');
 const sensorMeter = require("../models/sensormeter");
 const tariff = require("../models/tariff");
 const tariffObject = require("../models/tariffobject");
+const orders = require("../models/orders");
 const db = {};
 
 let sequelize;
@@ -69,6 +70,7 @@ db.sensorMeter = sensorMeter(sequelize, Sequelize);
 db.metersVals = metersVals(sequelize, Sequelize);
 db.tariff = tariff(sequelize, Sequelize);
 db.tariffObject = tariffObject(sequelize, Sequelize);
+db.orders = orders(sequelize, Sequelize);
 
 db.user.hasMany(db.object, {as: "objects"});
 db.object.hasMany(db.sensor, {as: "sensors"});
