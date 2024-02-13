@@ -6,8 +6,11 @@ const payRouter = require("./routes/pay");
 const app = express();
 const jwt = require(`jsonwebtoken`);
 const model = require('./db/models/index');
+const compression = require('compression');
 
 app.use(express.json());
+app.use(compression());
+
 app.use((req, res, next) => {
     let log = {
         method: req.method || "GET",
@@ -41,8 +44,10 @@ app.use(
 app.use(
     "/api/pay",
     (req, res, next) => {
-        if (req.path == "/api/pay/webhook")
+        if (req.path == "/webhook") {
             next();
+            return;
+        }
         authenticateToken(req, res, next);
     },
     payRouter

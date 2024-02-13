@@ -9,7 +9,8 @@ const authorization = process.env.API_TOKEN_YOUKASSA;
 async function pay(req, res) {
     try {
 
-        const tariffId = await model.tariff.findOne({
+        const objectId = req.body.objectId;
+        const tariff = await model.tariff.findOne({
             where: {
                 id: req.body.tariffId
             }
@@ -23,7 +24,7 @@ async function pay(req, res) {
 
         var params = {
             "amount": {
-                "value": tariffId.cost,
+                "value": tariff.cost,
                 "currency": "RUB"
             },
             "capture": false,
@@ -50,6 +51,8 @@ async function pay(req, res) {
                 "idOrder": payRemote.data.id,
                 "status": "pending",
                 "userId": user.id,
+                "tariffId": tariff.id,
+                "objectId": objectId,
             })
             console.log(payRemote.data.id)
             return await res.send({
