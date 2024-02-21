@@ -14,7 +14,7 @@ app.use(compression());
 app.use((req, res, next) => {
     let log = {
         method: req.method || "GET",
-        host: req.host || req.hostname || "localhost",
+        host: req.host || "localhost",
         port: req.port || "443",
         path: req.pathname || req.path || "/",
         body: req.body,
@@ -34,9 +34,6 @@ app.use(
 );
 app.use(
     "/api/meter",
-    (req, res, next) => {
-        authenticateToken(req, res, next);
-    },
     meter
 );
 

@@ -1,5 +1,5 @@
 ### Авторизация пользователя
-POST http://86.110.194.210:1000/api/auth/signIn
+POST http://localhost:3000/api/auth/signIn
 Content-Type: application/json
 
 {
@@ -10,16 +10,16 @@ Content-Type: application/json
 
 ### Получить все объекты пользователя
 GET http://localhost:3000/api/object/objects
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTcwNTM5Mjg4NiwiZXhwIjoxNzA1NDc5Mjg2fQ.-x38vdXkK3utOwD3ejQQb9ul1wB46ngga2TTRZ0fDl0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTcwODQyNzA1NiwiZXhwIjoxNzA4NTEzNDU2fQ.cew9GXGErXrFkrX4HfH1-B33TLZFFGisy8PxhZaAGGM
 
 ### Получить один объект пользователя
 GET http://localhost:3000/api/object/objectFull/3055
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTcwMzMzMDg5NCwiZXhwIjoxNzAzNDE3Mjk0fQ.8GsYYfxyqf_sV32yZnQEn1o8Tq3oyuCkQu0pwTbX1Qk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTcwODQyNzA1NiwiZXhwIjoxNzA4NTEzNDU2fQ.cew9GXGErXrFkrX4HfH1-B33TLZFFGisy8PxhZaAGGM
 
 
 ### Получить даные по объету пользователя
 GET http://localhost:3000/api/meter/meter
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTcwNDY0MTIzOSwiZXhwIjoxNzA0NzI3NjM5fQ.VNO-QLDI01QaEggbO1aS_1MdMmNrpwUdzcQZ0_w_06k
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTcwODQyNzA1NiwiZXhwIjoxNzA4NTEzNDU2fQ.cew9GXGErXrFkrX4HfH1-B33TLZFFGisy8PxhZaAGGM
 Content-Type: application/json
 
 {

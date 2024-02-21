@@ -25,21 +25,23 @@ http.listen(port, (err) => {
             }
         )
         const startDate = new Date();
-        const finishDate = startDate.setFullYear(startDate.getFullYear() + 1);
-        model.tariffObject.findOrCreate(
+        const finishDate = new Date().setFullYear(startDate.getFullYear() + 1);
+        model.tariffObject.update(
+            {
+                objectId: orderQuery.objectId,
+                tariffId: orderQuery.tariffId,
+                startDate: startDate,
+                finishDate: finishDate
+
+            },
             {
                 where: {
                     objectId: orderQuery.objectId,
-                    tariffId: orderQuery.tariffId,
                 },
-                defaults: {
-                    objectId: orderQuery.objectId,
-                    tariffId: orderQuery.tariffId,
-                    startDate: startDate,
-                    finishDate: finishDate
-                }
-            }
+            },
         )
     });
+
     console.log(`Сервер запущен на ${port}`)
-});
+})
+;

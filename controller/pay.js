@@ -2,6 +2,8 @@ const model = require("../db/models/index");
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
 const {v4: uuidv4} = require('uuid');
+const {Op} = require("sequelize");
+
 
 // токен
 const authorization = process.env.API_TOKEN_YOUKASSA;
@@ -113,7 +115,13 @@ const getPayment = async (payment_id) => {
 }
 
 async function getAllTariff(req, res) {
-    const tariffQuery = await model.tariff.findAll();
+    const tariffQuery = await model.tariff.findAll({
+        where: {
+            id: {
+                [Op.ne]: 1,
+            }
+        }
+    });
 
     return res.status(200).json(tariffQuery);
 }
@@ -150,28 +158,30 @@ async function getTariffObject(req, res) {
 async function getAllTariffObject(req, res) {
     const token = jwt.decode(req.headers["authorization"].split(" ")[1]);
     const allTariffObject = await model.tariffObject.findAll(
-        {
-            attributes: {
-                exclude: ["objectId", "tariffId", "createdAt", "updatedAt",],
-            }
-            ,
-            include: [
-                {
-                    model: model.object,
-                    as: 'object',
-                    include: [{
-                        model: model.user, as: "user", attributes: [], where: {
-                            login: token.email,
-                        },
-                    }]
+            {
+                attributes: {
+                    exclude: ["tariffId", "objectId", "createdAt", "updatedAt",],
                 },
-                {
-                    model: model.tariff,
-                    as: 'tariff'
-                }
-            ]
-        }
-    );
+                include: [
+                    {
+                        model: model.object,
+                        as: 'object',
+                        include: [{
+                            model: model.user, as: "user", attributes: [], where: {
+                                login:
+                                token.email,
+                            },
+                        }]
+                    },
+                    {
+                        model: model.tariff,
+                        as:
+                            'tariff'
+                    }
+                ]
+            }
+        )
+    ;
     return res.status(200).json(allTariffObject);
 }
 

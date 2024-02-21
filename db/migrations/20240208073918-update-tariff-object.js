@@ -5,11 +5,11 @@ module.exports = {
     async up(queryInterface, Sequelize) {
         await
             queryInterface.addColumn("TariffObjects", "startDate", {
-                allowNull: false,
+                allowNull: true,
                 type: Sequelize.DATE,
             })
         await queryInterface.addColumn("TariffObjects", "finishDate", {
-            allowNull: false,
+            allowNull: true,
             type: Sequelize.DATE,
         })
     },

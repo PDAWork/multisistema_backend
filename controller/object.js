@@ -81,6 +81,18 @@ async function getObjects(req, res) {
                         transaction: t
                     },
                 );
+                const tariffObject = await model.tariffObject.findOrCreate(
+                    {
+                        where: {
+                            objectId: object.id,
+                        },
+                        defaults: {
+                            objectId: object.id,
+                            tariffId: 1
+                        },
+                        transaction: t
+                    }
+                )
 
                 if (!objectQuery) {
                     await model.object.update(
