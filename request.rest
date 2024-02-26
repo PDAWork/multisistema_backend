@@ -19,11 +19,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb
 
 ### Получить даные по объету пользователя
 GET http://localhost:3000/api/meter/meter
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTcwODQyNzA1NiwiZXhwIjoxNzA4NTEzNDU2fQ.cew9GXGErXrFkrX4HfH1-B33TLZFFGisy8PxhZaAGGM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InpoYXJrb3Zfc0BtdWx0aXNpc3RlbWEucnUiLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTcwODU5Mzg3NCwiZXhwIjoxNzA4NTkzODg0fQ.tX7qq2t9TnRVtoOGzjwWsiKART4AJ_4mbGgSQL-1360
 Content-Type: application/json
 
 {
-  "idObject": 3118,
+  "idObject": 5595,
   "date": "2024-01-06T00:00:00.000"
 }
 

@@ -2,6 +2,11 @@ const model = require("../db/models/index");
 const jwt = require("jsonwebtoken");
 const axios = require("axios");
 
+class ApiSauresException {
+    constructor(name, message) {
+    }
+}
+
 async function getMeters(req, res) {
     const token = jwt.decode(req.headers["authorization"].split(" ")[1]);
     const idObject = req.body.idObject;
@@ -18,7 +23,12 @@ async function getMeters(req, res) {
         for (let index = 0; index < sensor.length; index++) {
             for (let i = 0; i < sensor[index].meters.length; i++) {
                 console.log(sensor[index].meters[i].meter.MetersVals.length);
-                if (isCheck = (sensor[index].meters[i].meter.MetersVals.length == 0)) {
+                if (sensor[index].meters[i].meter.MetersVals.length == 0) {
+                    const updateDateMeter = new Date(sensor[index].meters[i].meter.updatedAt);
+                    const timeDifferenceMeter = currentDate.getTime() - updateDateMeter.getTime();
+                    if ((isCheck = timeDifferenceMeter > oneWeekInMillis)) {
+                        break;
+                    }
                     break;
                 }
                 const updateDate = new Date(sensor[index].meters[i].meter.MetersVals[0].updatedAt);
@@ -243,7 +253,7 @@ async function getMetersSaurus(user, idObject, date) {
         console.log(resultUserObject);
         return resultUserObject.data.data.sensors;
     } catch (e) {
-        throw new Error('Ошибка сервера')
+        throw new ApiSauresException('Api', 'Ошибка')
     }
 }
 
