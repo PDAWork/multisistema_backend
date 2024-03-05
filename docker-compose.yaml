@@ -2,15 +2,26 @@ version: 0.0.1
 
 
 services:
-  app:
+  api:
+    container_name: multisistema_api
     image: node:18-alpine
     command: sh -c "npm install && npm install -g nodemon &&  npm run dev"
     ports:
-      - 127.0.0.1:3000:1000
+      - 127.0.0.1:3000:3000
     working_dir: /app
     volumes:
-      - ./:/app
+      - ./api:/app
+  push:
+    container_name: multisistema_push
+    image: node:18-alpine
+    command: sh -c "npm install && npm install -g nodemon &&  npm run dev"
+    ports:
+      - 127.0.0.1:3001:3001
+    working_dir: /app
+    volumes:
+      - ./push:/app
   db:
+    container_name: multisistema_db
     image: mysql
     restart: always
     ports:
